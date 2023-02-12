@@ -32,8 +32,7 @@ final class WebViewScreen: UIViewController, WKUIDelegate, WKNavigationDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Constants.Colors.gray
-        
+        view.backgroundColor = Constants.Colors.white
         loadWebView()
         setupConstraint()
     }

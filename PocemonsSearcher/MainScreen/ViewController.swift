@@ -52,66 +52,41 @@ class ViewController: UIViewController, UISearchBarDelegate {
     //MARK: - search bar delegate functions
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            //ставим таймер, запускаем индикатор загрузки и ищем совпадения по введенной строке среди всех покемонов
+            //если они есть, то отображаем их в collectionView
         timer?.invalidate()
         timer = .scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
             self.viewModel.myModel.removeAll()
             self.activityIndicator.startAnimating()
             guard let name = searchBar.text else { return }
-            self.makePocemonMatch(with: name)
+            self.viewModel.makePocemonMatch(with: name, activityIndicator: self.activityIndicator, collectionView: self.collectionView, navigationController: self.navigationController)
         }
+        
+            //если пользователь удалил все символы из поисковой строки, но обнуляем нашу модель
+            //и обновляем collectionView
         if searchText.isEmpty {
-            viewModel.myModel.removeAll()
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            removeAndReloadData()
         }
     }
     
+        //нажатие на крестик в поисковой строке
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.myModel.removeAll()
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        removeAndReloadData()
     }
     
     
+        //нажатие на enter: запускаем индикатор загрузки и ищем совпадения по введенной
+        //строке среди всех покемонов если они есть, то отображаем их в collectionView
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.activityIndicator.startAnimating()
         guard let name = searchBar.text else { return }
-        makePocemonMatch(with: name)
+        viewModel.makePocemonMatch(with: name, activityIndicator: activityIndicator, collectionView: collectionView, navigationController: navigationController)
     }
     
-    private func makePocemonMatch(with name: String) {
-        let dispatchGroup = DispatchGroup()
-        self.activityIndicator.startAnimating()
-        viewModel.loadPocemonList {
-            if $0 {
-                self.viewModel.pocemonsWorld?.results?.forEach {
-                    if let fullName = $0.name, fullName.contains(name.lowercased()) {
-                        dispatchGroup.enter()
-                        self.viewModel.loadPocemonWith(fullName) { result in
-                            switch result {
-                            case .success(let pocemon):
-                                self.viewModel.myModel.append(pocemon)
-                                dispatchGroup.leave()
-                            case .failure(let error):
-                                DispatchQueue.main.async {
-                                    let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-                                    self.present(alert, animated: true, completion: nil)
-                                    dispatchGroup.leave()
-                                }
-                            }
-                        }
-                    }
-                }
-                dispatchGroup.notify(queue: .main) {
-                    self.collectionView.reloadData()
-                    self.activityIndicator.stopAnimating()
-                }
-            } else {
-                print("POCEMON LIST NOT LOADED")
-            }
+    private func removeAndReloadData() {
+        viewModel.myModel.removeAll()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
 

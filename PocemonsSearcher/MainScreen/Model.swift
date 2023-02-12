@@ -7,18 +7,7 @@
 
 import Foundation
 
-struct NewModel: Codable {
-    let model: [Model]?
-    
-    enum CodingKeys: String, CodingKey {
-        case model = "model"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        model = try values.decodeIfPresent([Model].self, forKey: .model)
-    }
-}
+    //MARK: - модель данных для одного покемона
 
 struct Model : Codable {
     let name : String?
@@ -82,6 +71,8 @@ struct Sprites : Codable {
         }
     }
 }
+
+    //MARK: - модель данных для списка всех покемонов
 
 struct PocemonsWorld : Codable {
     let results : [Results]?

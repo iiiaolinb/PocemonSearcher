@@ -7,6 +7,7 @@
 
 import UIKit
 
+    //метод загружает изображение по ссылке без лишних параметров
 func simpleLoadImage(at urlString: String?) -> UIImage {
     guard let urlString = urlString,
           let url = URL(string: urlString),

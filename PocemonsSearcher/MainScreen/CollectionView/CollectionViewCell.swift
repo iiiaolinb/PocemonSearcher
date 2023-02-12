@@ -14,7 +14,7 @@ class CollectionViewCell: UICollectionViewCell {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .white
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = Constants.Sizes.cornerRadius
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         imageView.layer.shadowColor = UIColor.black.cgColor
@@ -29,6 +29,7 @@ class CollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
+        label.font = Constants.Font.textSmall
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

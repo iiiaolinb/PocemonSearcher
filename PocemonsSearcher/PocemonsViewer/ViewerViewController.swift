@@ -27,7 +27,6 @@ final class ViewerViewController: UIViewController {
         button.backgroundColor = .clear
         button.setImage(UIImage(named: "next"), for: .normal)
         button.addTarget(self, action: #selector(onNextButtonTapped), for: .touchUpInside)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -37,7 +36,6 @@ final class ViewerViewController: UIViewController {
         button.backgroundColor = .clear
         button.setImage(UIImage(named: "back"), for: .normal)
         button.addTarget(self, action: #selector(onPreviousButtonTapped), for: .touchUpInside)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -47,8 +45,8 @@ final class ViewerViewController: UIViewController {
         button.backgroundColor = .clear
         button.setTitle("Open full info", for: .normal)
         button.setTitleColor(Constants.Colors.brown, for: .normal)
+        button.titleLabel?.font = Constants.Font.textMain
         button.addTarget(self, action: #selector(onOpenButtonTapped), for: .touchUpInside)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -58,15 +56,14 @@ final class ViewerViewController: UIViewController {
         imageView.backgroundColor = .clear
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
-        
+        view.backgroundColor = Constants.Colors.black
+        navigationItem.title = self.selectedPocemon?.name
         setupConstraints()
         viewModel?.loadImage(to: imageView, closure: { print($0) })
     }
@@ -83,19 +80,6 @@ final class ViewerViewController: UIViewController {
         guard let name = self.selectedPocemon?.name else { return }
         viewModel?.openWebViewScreen(with: navigationController, urlString: Constants.DefaultURL.baseURLPocemonsInfo + name)
     }
-    
-//    private func loadImage() {
-//        DispatchQueue.global(qos: .userInteractive).async {
-//            DispatchQueue.main.async {
-//                guard let sprites = self.selectedPocemon?.sprites?.front_default else { return }
-//                let image = simpleLoadImage(at: sprites)
-//                UIView.transition(with: self.imageView,
-//                                  duration: 1,
-//                                  options: [.curveEaseOut, .transitionCrossDissolve],
-//                                  animations: { self.imageView.image = image })
-//            }
-//        }
-//    }
     
         //MARK: - setup constraints
     

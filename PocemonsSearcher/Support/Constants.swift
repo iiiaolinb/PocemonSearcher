@@ -9,16 +9,14 @@ import UIKit
 
 enum Constants {
     enum Font {
-        static var textExtraBig = UIFont.systemFont(ofSize: 30, weight: .heavy)
-        static var textHeader = UIFont.systemFont(ofSize: 22, weight: .bold)
         static var textMain = UIFont.systemFont(ofSize: 18, weight: .medium)
         static var textSmall = UIFont.systemFont(ofSize: 13, weight: .regular)
-        static var textExtraSmall = UIFont.systemFont(ofSize: 10, weight: .light)
     }
     
     enum Colors {
+        static let white = UIColor.white
         static let brown = UIColor.brown
-        static let gray = UIColor.systemGray2
+        static let black = UIColor.black
     }
     
     enum Sizes {
@@ -30,6 +28,7 @@ enum Constants {
     }
     
     enum DefaultURL {
+            //URL для загрузки всех имеющихся покемонов
         static let URLForPocemonsWorld = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
         
             //URL для получения данных от API
